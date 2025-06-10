@@ -1,7 +1,6 @@
-#include "classes.cpp"
+#include "classes.h"
 
 using namespace std;
-
 
 
 int main()
@@ -19,9 +18,9 @@ int main()
 
 	luca.setPosition(screenCenter.x - luca.getRadius(), screenCenter.y - luca.getRadius());
 
-
 	luca.showInfo();
-	srand(time(NULL));
+
+
 
 	Food snack(30);
 	snack.setRadius(10);
@@ -30,10 +29,15 @@ int main()
 
 	Vector2f foodDir(0, 0);
 
+
+
 	while (window.isOpen())
 	{
 		window.setFramerateLimit(60);
 		sf::Time elapsed = clock.restart();
+
+	srand(time(NULL));
+
 
 
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -45,8 +49,20 @@ int main()
 				window.close();
 		}
 
+
+
+		//----------------------CALCULATE MOVEMENT
+
 		foodDir = (snack.getPosition() - luca.getPosition());
-		luca.moveTo(sf::Vector2f(1,1), elapsed.asSeconds());
+
+
+		//approach until too close
+		if (getV2Length(foodDir) > 1)
+		{
+			luca.moveTo(foodDir, elapsed.asSeconds());
+		}
+
+		//----------------------END OF CALCULATE MOVEMENT
 
 
 		// clear the window with black color
@@ -72,12 +88,5 @@ int main()
 
 	return 0;
 }
-
-
-
-
-
-
-
 
 

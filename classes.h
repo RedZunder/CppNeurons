@@ -2,10 +2,20 @@
 
 using namespace sf;
 
+
+
+float getV2Length(sf::Vector2f vec)
+{
+    return sqrt(vec.x * vec.x + vec.y * vec.y);
+}
+
+
+
+
 class Cell : public CircleShape {
 public:
     float speed;
-    
+
 
     Cell(float rad, Color color, float speed_, Vector2f pos = Vector2f(0.0f, 0.0f))
     {
@@ -18,18 +28,17 @@ public:
 
     void moveTo(Vector2f direction, float time_ms)
     {
-        move(Vector2f((direction.x * time_ms * speed)/sqrt(direction.x* direction.x + direction.y* direction.y),
-            (direction.y * time_ms * speed) / sqrt(direction.x * direction.x + direction.y * direction.y)));
-        
-        std::cout << "Dir " << direction.x / sqrt((direction.x * direction.x) + (direction.y * direction.y)) << "  " <<
-            direction.y / sqrt((direction.x * direction.x) + (direction.y * direction.y)) << std::endl;
+        move(Vector2f((direction.x * time_ms * speed) / getV2Length(direction), (direction.y * time_ms * speed) / getV2Length(direction)));
+
+        std::cout << "Direction " << direction.x / getV2Length(direction) << " " << direction.y / getV2Length(direction)
+            << "  Distance " << getV2Length(direction) << std::endl;
     }
 
-    
+
 
     void showInfo()                                                                                     //For debugging
     {
-        std::cout << getPosition().x << " " << getPosition().y << "  " << getRadius() << std::endl;
+        std::cout << getPosition().x << " " << getPosition().y << "  " << getRadius()<< std::endl;
     }
 
 
@@ -50,7 +59,6 @@ public:
 
 
 };
-
 
 
 
