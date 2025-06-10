@@ -1,0 +1,21 @@
+﻿  main.cpp
+C:\Users\D\source\repos\CppNeurons\main.cpp(12,69): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\main.cpp(12,46): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\main.cpp(24,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  CppNeurons.vcxproj -> C:\Users\D\source\repos\CppNeurons\x64\Debug\CppNeurons.exe

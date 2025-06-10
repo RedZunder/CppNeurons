@@ -7,29 +7,32 @@ using namespace std;
 int main()
 {
 	sf::Clock clock;
-	sf::RenderWindow window(sf::VideoMode(480, 480), "Screen");
+	sf::RenderWindow window(sf::VideoMode(720, 720), "Screen");
+
 	sf::Vector2f screenCenter(window.getSize().x/2, window.getSize().y / 2);
 
-	Cell luca(sf::Vector2f(300,75));
+
+	sf::Color col;
+	col.r = 255; col.g = 255; col.b = 255;
+
+	Cell luca(50, col, 100);
+
+	luca.setPosition(screenCenter.x - luca.getRadius(), screenCenter.y - luca.getRadius());
+
 
 	luca.showInfo();
-	
-	sf::Color col;
-	col.r = 100; col.g = 50; col.b = 200;
+	srand(time(NULL));
 
-	sf::CircleShape circle;
-	circle.setRadius(50);
+	Food snack(30);
+	snack.setRadius(10);
+	snack.setFillColor(sf::Color::Blue);
+	snack.setPosition(Vector2f(100,50));
 
-	circle.setPosition(sf::Vector2f(screenCenter.x - circle.getRadius(), screenCenter.y - circle.getRadius()));
-	circle.setFillColor(col);
-
-
-
+	Vector2f foodDir(0, 0);
 
 	while (window.isOpen())
 	{
 		window.setFramerateLimit(60);
-		srand(time(NULL));
 		sf::Time elapsed = clock.restart();
 
 
@@ -42,16 +45,21 @@ int main()
 				window.close();
 		}
 
-
-
+		foodDir = (snack.getPosition() - luca.getPosition());
+		luca.moveTo(sf::Vector2f(1,1), elapsed.asSeconds());
 
 
 		// clear the window with black color
 		window.clear(sf::Color::Black);
 
 
+
 		///DRAW THINGS
-		window.draw(circle);
+		window.draw(luca);
+		window.draw(snack);
+
+
+
 
 		 // end the current frame
 		window.display();
