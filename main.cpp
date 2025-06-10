@@ -1,101 +1,75 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <ctime>
+#include "classes.cpp"
+
 using namespace std;
 
-#define maxN 8  //number of Neuorns = number of "links"
-#define ins 6  //number of defined attributes (inputs)
-char gens[4]={'A', 'C', 'G', 'T'};
 
-class Neuron
-{
-    private:
-    short int size, colR, colG, colB, speedX, speedY;
-
-    vector<char> genome={};
-
-    public:
-    unsigned short int mutationIDX;  //number between 0 and 10
-    void setGenome (vector<char> v)
-    {
-        genome=v;
-    }
-    void showGenome() //show raw data
-    {
-        for (const auto &i :genome)
-        cout<<i;
-    }
-    vector<char> getGenome()
-    {
-        return genome;
-    }
-    void interpret() //translate data to name of characteristics
-       {
-        for(const auto&i:genome)
-        {
-            switch(i)
-            {
-                default:break;
-            }
-            cout<<endl;
-        }
-    }
-
-};
-
-void MakeGenome(Neuron &n) //create random genome
-{
-    srand(time(NULL)) ;
-    vector<char> vn;
-
-    for(int i=0;i<maxN;i++)
-    {
-        vn.emplace_back(gens[rand()%4]) ;
-    }
-
-    n.setGenome(vn);
-}
-
-vector<char>Mutate(vector<char> g, unsigned short int idx)
-{
-    vector<char>gen={};
-    for(const auto &i:g)
-    {
-        if(rand()%10+1<idx) 	gen.emplace_back(gens[rand()%4]) ;
-        else
-               gen.emplace_back(i) ;
-    }
-    return gen;
-
-}
-void ReproduceN(Neuron x)
-{
-    Neuron x1, x2;
-    x1.mutationIDX=x.mutationIDX+rand() %2;
-    x2.mutationIDX=x.mutationIDX+rand() %2;
-    x1.setGenome(Mutate(x.getGenome(), x1. mutationIDX)) ;
-    x2.setGenome(Mutate(x.getGenome(), x2. mutationIDX)) ;
-    cout<<"x1: ";
-    x1.showGenome() ;
-    cout<<"\nx2: ";
-    x2.showGenome() ;
-}
 
 int main()
 {
+	sf::Clock clock;
+	sf::RenderWindow window(sf::VideoMode(480, 480), "Screen");
+	sf::Vector2f screenCenter(window.getSize().x/2, window.getSize().y / 2);
 
-    Neuron x;
-    MakeGenome(x) ;
-    x.mutationIDX=5;
+	Cell luca(sf::Vector2f(300,75));
 
-    x.showGenome() ;
-    cout<<endl;
-    ReproduceN(x) ;
+	luca.showInfo();
+	
+	sf::Color col;
+	col.r = 100; col.g = 50; col.b = 200;
+
+	sf::CircleShape circle;
+	circle.setRadius(50);
+
+	circle.setPosition(sf::Vector2f(screenCenter.x - circle.getRadius(), screenCenter.y - circle.getRadius()));
+	circle.setFillColor(col);
+
+
+
+
+	while (window.isOpen())
+	{
+		window.setFramerateLimit(60);
+		srand(time(NULL));
+		sf::Time elapsed = clock.restart();
+
+
+		// check all the window's events that were triggered since the last iteration of the loop
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			// "close requested" event: we close the window
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
 
 
 
 
 
-return 0;
+		// clear the window with black color
+		window.clear(sf::Color::Black);
+
+
+		///DRAW THINGS
+		window.draw(circle);
+
+		 // end the current frame
+		window.display();
+
+
+	}
+
+
+
+
+	return 0;
 }
+
+
+
+
+
+
+
+
+

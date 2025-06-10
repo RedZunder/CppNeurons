@@ -1,0 +1,46 @@
+﻿  classes.cpp
+C:\Users\D\source\repos\CppNeurons\CppNeurons\classes.cpp(11,20): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\CppNeurons\classes.cpp(12,20): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  main.cpp
+C:\Users\D\source\repos\CppNeurons\CppNeurons\classes.cpp(11,20): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\CppNeurons\classes.cpp(12,20): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\CppNeurons\main.cpp(11,69): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\CppNeurons\main.cpp(11,46): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\CppNeurons\main.cpp(13,24): error C2664: 'Cell::Cell(const Cell &)': cannot convert argument 1 from 'sf::Vector2f' to 'const Cell &'
+C:\Users\D\source\repos\CppNeurons\CppNeurons\main.cpp(13,24): message : Reason: cannot convert from 'sf::Vector2f' to 'const Cell'
+C:\Users\D\source\repos\CppNeurons\CppNeurons\main.cpp(13,24): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\D\source\repos\CppNeurons\CppNeurons\classes.cpp(29,1): message : see declaration of 'Cell::Cell'
+C:\Users\D\source\repos\CppNeurons\CppNeurons\main.cpp(32,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
