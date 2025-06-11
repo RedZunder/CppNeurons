@@ -1,5 +1,13 @@
 ﻿  main.cpp
-C:\Users\D\source\repos\CppNeurons\main.cpp(11,69): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(38,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(39,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(40,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(41,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(87,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(88,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(89,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\classes.h(90,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\main.cpp(15,69): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -8,7 +16,7 @@ C:\Users\D\source\repos\CppNeurons\main.cpp(11,69): warning C4244: 'argument': c
           [
               T=float
           ]
-C:\Users\D\source\repos\CppNeurons\main.cpp(11,46): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\D\source\repos\CppNeurons\main.cpp(15,46): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -17,5 +25,16 @@ C:\Users\D\source\repos\CppNeurons\main.cpp(11,46): warning C4244: 'argument': c
           [
               T=float
           ]
-C:\Users\D\source\repos\CppNeurons\main.cpp(39,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\main.cpp(23,42): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\main.cpp(49,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\D\source\repos\CppNeurons\main.cpp(76,80): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\D\source\repos\CppNeurons\main.cpp(76,62): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   CppNeurons.vcxproj -> C:\Users\D\source\repos\CppNeurons\x64\Debug\CppNeurons.exe
