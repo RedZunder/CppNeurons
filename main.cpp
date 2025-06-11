@@ -11,7 +11,7 @@ int main()
 	std::vector<unique_ptr<Food>> foodQueue;
 
 	sf::Clock clock;
-	sf::RenderWindow window(sf::VideoMode(720, 720), "Screen");
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Screen");
 
 	sf::Vector2f screenCenter(window.getSize().x / 2, window.getSize().y / 2);
 
@@ -21,7 +21,7 @@ int main()
 
 	cellQueue.emplace_back(std::make_unique<Cell>(30, col, 80, 150));
 
-	cellQueue[0]->vector_index = cellQueue.size() - 1;
+	cellQueue[0]->vector_index = 0;
 
 	cellQueue[0]->setPosition(screenCenter.x - cellQueue[0]->getRadius(), screenCenter.y - cellQueue[0]->getRadius());
 	
@@ -32,7 +32,7 @@ int main()
 
 	
 	//Create food pallets randomly around the place
-	for (int i = 0 ; i < 20 ; i++)
+	for (int i = 0 ; i < 60 ; i++)
 	{
 		srand(i * time(NULL));
 		foodQueue.emplace_back(std::make_unique<Food>(30, 10));
@@ -82,6 +82,7 @@ int main()
 			}
 			else
 			{
+				//eat and divide
 				reproduceCell(cellQueue, i, sf::Vector2f((rand() % 4 - 2) * 20, (rand() % 4 - 2) * 20));
 				deleteFood(foodQueue,closestFood.vector_index);
 			}

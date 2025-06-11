@@ -90,30 +90,48 @@ public:
 
 };
 
-void reproduceCell(std::vector<std::unique_ptr<Cell>> &drawQueue, size_t parentIndex, const sf::Vector2f& offset)
+
+
+/**
+*   @brief                  Destroy one cell and create two children in its place with slight offset
+*   @param queue            The vector containing all Cell objects
+*   @param parentIndex      Position of the parent in the vector
+*   @param offset           Offset for children position
+*
+*/
+void reproduceCell(std::vector<std::unique_ptr<Cell>> & queue, size_t parentIndex, const sf::Vector2f& offset)
 {
     // Take parent out of the vector 
-    auto parentPtr = std::move(drawQueue[parentIndex]);
+    auto parentPtr = std::move(queue[parentIndex]);
 
     // Spawn children based on parent
-   for (int i = 0; i < 2; ++i) {
-        drawQueue.emplace_back(std::make_unique<Cell>(
-            parentPtr->getRadius(), parentPtr->getFillColor(), parentPtr->speedx, parentPtr->energy, parentPtr->getPosition() + offset));
-    }
+    queue.emplace_back(std::make_unique<Cell>(
+        parentPtr->getRadius(), parentPtr->getFillColor(), parentPtr->speedx, parentPtr->energy, parentPtr->getPosition() + offset));
+
+    queue.emplace_back(std::make_unique<Cell>(
+        parentPtr->getRadius(), parentPtr->getFillColor(), parentPtr->speedx, parentPtr->energy, parentPtr->getPosition() + offset));
 
     // Erase parent slot
-    drawQueue.erase(drawQueue.begin() + parentIndex);
+    queue.erase(queue.begin() + parentIndex);
 
 #if DEBUG==1
-    std::cout << "Size  " << drawQueue.size()<<std::endl;
+    std::cout << "Size  " << queue.size()<<std::endl;
 #endif
 }
 
 
+
+/**
+*   @brief                  Destroy one food item from the queue
+*   @param queue            The vector containing all Food objects
+*   @param index            Position of the food item in the vector
+*
+*/
 void deleteFood(std::vector<std::unique_ptr<Food>> &queue, size_t index)
 {
     queue.erase(queue.begin() + index);
 
+    //recalculate all indexes           //TODO optimize
     for (int i=0;i<queue.size();i++)
     {
         queue[i]->vector_index = i;
@@ -123,11 +141,13 @@ void deleteFood(std::vector<std::unique_ptr<Food>> &queue, size_t index)
 
 
 
-
-
-
-
-
+/**
+*   @brief                  Find and return the closest food to the cell
+*   @param v                The vector containing all Food objects
+*   @param obj              The Cell object
+*   @return                 The closest food item from the vector
+*
+*/
 Food findClosestFood(const std::vector<std::unique_ptr<Food>> &v, const Cell &obj)
 {
     Food closest = *v[0];
