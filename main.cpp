@@ -7,45 +7,51 @@ int main()
 {
 	//-----------------------------------------DECLARATIONS
 
-	std::vector<Cell*> drawQueue;
+	std::vector<unique_ptr<Cell>> cellQueue;
+	std::vector<unique_ptr<Food>> foodQueue;
 
 	sf::Clock clock;
 	sf::RenderWindow window(sf::VideoMode(720, 720), "Screen");
 
-	sf::Vector2f screenCenter(window.getSize().x/2, window.getSize().y / 2);
+	sf::Vector2f screenCenter(window.getSize().x / 2, window.getSize().y / 2);
 
 	
 	sf::Color col;
 	col.r = 255; col.g = 255; col.b = 255;
 
-	Cell luca(30, col, 80, 150);
-	drawQueue.emplace_back(&luca);
-	luca.vector_index = drawQueue.size() - 1;
+	cellQueue.emplace_back(std::make_unique<Cell>(30, col, 80, 150));
 
-	luca.setPosition(screenCenter.x - luca.getRadius(), screenCenter.y - luca.getRadius());
+	cellQueue[0]->vector_index = cellQueue.size() - 1;
 
-
+	cellQueue[0]->setPosition(screenCenter.x - cellQueue[0]->getRadius(), screenCenter.y - cellQueue[0]->getRadius());
+	
+	
 #if DEBUG==1
-	luca.showInfo();
+	cellQueue[0]->showInfo();
 #endif
 
-
-	Food snack(30, 10);
-	snack.setFillColor(sf::Color::Blue);
-	snack.setPosition(Vector2f(100,50));
+	
+	//Create food pallets randomly around the place
+	for (int i = 0 ; i < 20 ; i++)
+	{
+		srand(i * time(NULL));
+		foodQueue.emplace_back(std::make_unique<Food>(30, 10));
+		foodQueue[i]->vector_index = i;
+		foodQueue[i]->setFillColor(sf::Color::Blue);
+		foodQueue[i]->setPosition(Vector2f(rand() % window.getSize().x, rand() % window.getSize().y));
+	}
 
 	Vector2f foodDir(0, 0);
-
+	Food closestFood(30, 10);
 	//-----------------------------------------
-
 
 
 	//-----------------------------------------MAIN LOOP
 	while (window.isOpen())
 	{
+		//config
 		window.setFramerateLimit(60);
 		sf::Time elapsed = clock.restart();
-
 		srand(time(NULL));
 
 
@@ -62,19 +68,27 @@ int main()
 
 
 		//-----------------------------------------CALCULATE MOVEMENT
+		
 
-		foodDir = (snack.getPosition() - luca.getPosition());
-
-
-		//approach until touch
-		if (getV2Length(foodDir) > snack.getRadius() + luca.getRadius())
+		for (int i = 0; i < cellQueue.size(); i++)
 		{
-			luca.moveTo(foodDir, elapsed.asSeconds());
+			closestFood = findClosestFood(foodQueue, *cellQueue[i]);
+			foodDir = (closestFood.getPosition() - cellQueue[i]->getPosition());
+
+			//approach until touch
+			if (getV2Length(foodDir) > closestFood.getRadius() + cellQueue[i]->getRadius())
+			{
+				cellQueue[i]->moveTo(foodDir, elapsed.asSeconds());
+			}
+			else
+			{
+				reproduceCell(cellQueue, i, sf::Vector2f((rand() % 4 - 2) * 20, (rand() % 4 - 2) * 20));
+				deleteFood(foodQueue,closestFood.vector_index);
+			}
 		}
-		else if (drawQueue.at(luca.vector_index) == &luca)
-		{
-			reproduceCell(&luca, &drawQueue, sf::Vector2f(rand() % 30 + 30, rand() % 20 + 10));
-		}
+
+
+		
 		
 		//-----------------------------------------
 
@@ -87,13 +101,17 @@ int main()
 
 
 
-		///DRAW THINGS
-		for (auto i : drawQueue)
+		///--------------------------------------------DRAW THINGS
+
+		for (auto &i : cellQueue)
 		{
 			window.draw(*i);
 		}
 
-		window.draw(snack);
+		for (auto &i :foodQueue)
+		{
+			window.draw(*i);
+		}
 
 
 
@@ -103,7 +121,7 @@ int main()
 
 
 	}
-
+	
 
 
 

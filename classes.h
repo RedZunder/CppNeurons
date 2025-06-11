@@ -17,14 +17,12 @@ float getV2Length(sf::Vector2f vec)
 
 
 
-
-
-
 class Cell : public CircleShape {
 public:
     float speedx, speedy, energy;
     int top_edge, btm_edge, left_edge, rgt_edge;
     int vector_index=0;
+
     Cell(float rad, Color color, float speed_, float energy_, Vector2f pos = Vector2f(0.0f, 0.0f))
     {
         setPosition(pos);
@@ -57,17 +55,12 @@ public:
 
 
 
-
-
-
 #if DEBUG==1
     void showInfo()                                                                                     //For debugging
     {
         std::cout << getPosition().x << " " << getPosition().y << "  " << getRadius()<< std::endl;
     }
 #endif
-
-
 
 
 
@@ -80,6 +73,7 @@ class Food : public CircleShape
 public:
     float energy;
     int top_edge, btm_edge, left_edge, rgt_edge;
+    int vector_index = 0;
 
     Food(float en, float radius) 
     {
@@ -96,18 +90,35 @@ public:
 
 };
 
-
-void reproduceCell(Cell* cell, std::vector<Cell*> *drawQueue, Vector2f offset)
+void reproduceCell(std::vector<std::unique_ptr<Cell>> &drawQueue, size_t parentIndex, const sf::Vector2f& offset)
 {
-    static Cell c1(cell->getRadius(), cell->getFillColor(), cell->speedx, cell->energy, cell->getPosition() + offset);
-    
-    static Cell c2(cell->getRadius(), cell->getFillColor(), cell->speedx, cell->energy,cell->getPosition() -offset);
+    // Take parent out of the vector 
+    auto parentPtr = std::move(drawQueue[parentIndex]);
 
-    drawQueue->emplace_back(&c1);
-    drawQueue->emplace_back(&c2);
+    // Spawn children based on parent
+   for (int i = 0; i < 2; ++i) {
+        drawQueue.emplace_back(std::make_unique<Cell>(
+            parentPtr->getRadius(), parentPtr->getFillColor(), parentPtr->speedx, parentPtr->energy, parentPtr->getPosition() + offset));
+    }
 
-    drawQueue->erase(drawQueue->begin() + cell->vector_index);
-    std::cout << "Size of vector " << drawQueue->size();
+    // Erase parent slot
+    drawQueue.erase(drawQueue.begin() + parentIndex);
+
+#if DEBUG==1
+    std::cout << "Size  " << drawQueue.size()<<std::endl;
+#endif
+}
+
+
+void deleteFood(std::vector<std::unique_ptr<Food>> &queue, size_t index)
+{
+    queue.erase(queue.begin() + index);
+
+    for (int i=0;i<queue.size();i++)
+    {
+        queue[i]->vector_index = i;
+    }
+
 }
 
 
@@ -116,3 +127,20 @@ void reproduceCell(Cell* cell, std::vector<Cell*> *drawQueue, Vector2f offset)
 
 
 
+
+Food findClosestFood(const std::vector<std::unique_ptr<Food>> &v, const Cell &obj)
+{
+    Food closest = *v[0];
+    float dist = abs(getV2Length(obj.getPosition() -v[0]->getPosition()));
+
+    for (auto const &i : v)
+    {
+        if (abs(getV2Length(obj.getPosition() - i->getPosition())) < dist)
+        {
+            dist = getV2Length(obj.getPosition() - i->getPosition());
+            closest = *i;
+        }
+    }
+
+    return closest;
+}
